@@ -1,0 +1,78 @@
+create table branch(
+    branchname varchar2(20),
+    branhcity varchar2(20),
+    Assets Number(10),
+    primary key(branchname)
+);
+
+create table account (
+    acc_no varchar2(10),
+    branchname varchar2(20),
+    balance Number(10),
+    primary key(acc_no),
+    foreign key(branchname) references branch(branchname)
+);
+
+create table customer (
+    customername varchar2(20),
+    customer_street varchar2(20),
+    city varchar2(20),
+    primary key(customername)
+);
+
+create table depositor (
+    acc_no varchar2(10),
+    customername varchar2(20),
+    foreign key(acc_no) references account(acc_no),
+    foreign key(customername) references customer(customername)
+);
+
+create table loan (
+    loannumber Number(10),
+    branchname varchar2(20),
+    amount Number(20),
+    primary key(loannumber),
+    foreign key(branchname) references branch(branchname)
+);
+
+create table borrower (
+    loannumber Number(10),
+    customername varchar2(20),
+    foreign key(customername) references customer(customername),
+    foreign key(loannumber) references loan(loannumber)
+);
+
+insert into branch values('branch1', 'bengaluru', 10000000);
+insert into branch values('branch2', 'bengaluru', 10000000);
+insert into branch values('branch3', 'bengaluru', 10000000);
+
+insert into account values('1BMACC01', 'branch1', 10000);
+insert into account values('1BMACC02', 'branch1', 20000);
+insert into account values('1BMACC05', 'branch1', 20000);
+insert into account values('1BMACC03', 'branch2', 30000);
+insert into account values('1BMACC04', 'branch2', 40000);
+insert into account values('1BMACC06', 'branch3', 40000);
+
+insert into customer values('pranav', 'hanumanthnagar', 'bengaluru');
+insert into customer values('manas', 'saptagrehe', 'bengaluru');
+insert into customer values('nilanshu', 'saptagrehe', 'bengaluru');
+insert into customer values('nitesh', 'nagasandra', 'bengaluru');
+
+insert into depositor values('1BMACC01', 'pranav');
+insert into depositor values('1BMACC05', 'pranav');
+insert into depositor values('1BMACC02','manas');
+insert into depositor values( '1BMACC03','nilanshu');
+insert into depositor values( '1BMACC04', 'nitesh');
+
+insert into loan values(1, 'branch1', 1000000);
+insert into loan values(3, 'branch2', 2000000);
+
+insert into borrower values(1, 'pranav');
+insert into borrower values(3, 'nilanshu');
+
+    
+select * from customer
+    where city = 'bengaluru';
+    
+delete from account
+    where branchname = 'branch3';
